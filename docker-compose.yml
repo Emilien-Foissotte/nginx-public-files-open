@@ -1,0 +1,27 @@
+version: "3.4"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_sharebox
+    volumes:
+      - /opt/plexmedia/movies:/static/sharebox/movies:ro
+      - /opt/plexmedia/series:/static/sharebox/series:ro
+      - /opt/sharefolder/:/static/sharebox/sharefolder:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    restart: unless-stopped
+    expose:
+      - 80
+    networks:
+        - pi
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.sharebox.loadBalancer.server.port=80'
+      - 'traefik.http.routers.sharebox.rule=PathPrefix(`/sharebox`)'
+      - 'traefik.http.routers.sharebox.tls'
+      - 'traefik.http.middlewares.shareboxAuth.basicauth.removeheader=true'
+      - 'traefik.http.middlewares.shareboxAuth.basicauth.users=sharebox:$$2y$$05$$5j.AJkN9t5xaCEZi16FI1.bWt2tBiBh3lnMHZjy1KMXbmb8OsV37O'
+      - 'traefik.http.routers.sharebox.middlewares=shareboxAuth'
+networks:
+    pi:
+      external: true
