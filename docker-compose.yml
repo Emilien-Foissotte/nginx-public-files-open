@@ -6,6 +6,7 @@ services:
     container_name: nginx_publicshare
     volumes:
       - /opt/publicfolder/:/static/public/sharefolder:ro
+      - ./robots.txt:/static/public/robots.txt
       - ./nginx.conf:/etc/nginx/nginx.conf
     restart: unless-stopped
     expose:
