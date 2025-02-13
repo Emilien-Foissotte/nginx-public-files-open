@@ -17,7 +17,7 @@ services:
       - "traefik.http.services.publicshare.loadBalancer.server.port=80"
       - "traefik.http.routers.publicshare.rule=PathPrefix(`/public`)"
       - "traefik.http.routers.publicshare.tls"
-      - "traefik.http.middlewares.publicshare-headers.headers.customResponseHeaders.X-Robots-Tag=no-index"
+      - "traefik.http.middlewares.publicshare-headers.headers.customResponseHeaders.X-Robots-Tag=noindex"
       - "traefik.http.routers.publicshare.middlewares=publicshare-headers"
 networks:
   pi:
